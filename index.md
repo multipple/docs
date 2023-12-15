@@ -34,11 +34,13 @@ Extension meta functions & properties are injected as imputs to the component at
 
 ### meta
 **type**: *object*\
-**value**: Refer to [meta options]()\
+**value**: Refer to [meta options]()
+
 Contain extension information. These info are defined during implementation of the extension in the `.metadata` file.
 
 ### Declare(this, […resources])
-**type**: *function*\
+**type**: *function*
+
 It's a runtime function when called transform a regular component into extension by adding super features to the main component's `this`. These features allow the component to access and perform direct or indirect operations on Multipple platform as extension plugin or application.
   - `this.App`: *Object* Provide application features to the extension
   - `this.Plugin`: *Object* Provide plugin features to the extension
@@ -167,18 +169,21 @@ It's a runtime function when called transform a regular component into extension
   - **String**:
 
 ### payload
-**type**: *object*\
+**type**: *object*
+
 It's the input data provided to the extension during usage
 
 ### theme
 **type**: *string*\
-**value**: `light` | `dark`\
+**value**: `light` | `dark`
+
 This tells which is the current theme mode of multipple UI. Usefull for extension to adapt to user's theme mode.
 > Note: For frontend extension only
 
 ### screen
 **type**: *string*\
-**value**: `xs` | `sm` | `md` | `lg` | `xl`\
+**value**: `xs` | `sm` | `md` | `lg` | `xl`
+
 This tells the currenty device screen size being use by the workspace. Usefull for UI responsiveness
   - `xs`: Extra-small screen size
   - `sm`: Small screen size
@@ -190,7 +195,8 @@ This tells the currenty device screen size being use by the workspace. Usefull f
 
 ### mode
 **type**: *string*\
-**value**: `qs` | `hs` | `fs`\
+**value**: `qs` | `hs` | `fs`
+
 This tells what screen size is allocated to the extension display in the workspace
   - `qs`: Quarter screen mode
   - `hs`: Half screen mode
@@ -199,7 +205,8 @@ This tells what screen size is allocated to the extension display in the workspa
 > Note: For frontend extension only
 
 ### context
-**type**: *string*\
+**type**: *string*
+
 Given execution context to run the extension with. On the frontend, it represent the main page on which the user is on. If user is browsing courses page, then context is `course`. This help an extension to operate responsively to different pages of the app.
 
 > Use case: **SmartSearch** extension use context to auto apply determine query target from one page to another. When user is on courses page, SmartSearch direct search to courses and when user browse to programs, it automatically switch search queries to programs.
@@ -208,10 +215,12 @@ Context application for backend extension are yet to be defined.
 
 ### user
 **type**: *object*\
-**value**: Refer to [user data]()\
+**value**: Refer to [user data]()
+
 Provide the current session's user data. For privacy policies, It's only available when extension request `user.*` permission. This permission can be define in `.metadata.resource.permissions` and is `granted` or `denied` by the user during installation of an extension.
 
 ### tenant
 **type**: *object*\
-**value**: Refer to [tenant data]()\
+**value**: Refer to [tenant data]()
+
 Provide the current tenant/institution data. For privacy policies, It's only available when extension request `tenant.*` permission. This permission can be define in `.metadata.resource.permissions` and is `granted` or `denied` only by admistrator user during installation of an extension.
