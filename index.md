@@ -58,10 +58,110 @@ It's a runtime function when called transform a regular component into extension
   - `.data`: 
 
 ### Extesion resources
-  - **Share State**:
-  - **UI Store**:
-  - **Request**:
+  - **Share State**
+  
+  Enable a shared state between main and all subcomponents of the extension
+  ```JS
+    /* index.marko */
+
+    // Initialize a state
+    this.App.State.init({ name: 'Bob' })
+
+    // Set new state
+    this.App.State.set('username', 'dupont')
+
+    // Get state value
+    this.App.State.get('username')
+
+    // Set state value and force component to re-render
+    this.App.State.dirty('username')
+
+    // Define a new state API
+    this.App.State.define('user')
+    .action('profile', async () => { /* Retrieve user profile data */ })
+    .action('update', async () => { /* Update user data */ })
+
+    // Listen to event anytime a state key change
+    this.App.State.on('name', value => { /* Do something */ })
+    // Listen to event once a state key change
+    this.App.State.once('name', value => { /* Do something */ })
+    // Remove existing event listener
+    this.App.State.off('name', value => { /* Do something */ })
+  ```
+
+  Accessing the State from a sub-component
+  ```JS
+    /* sub-component.marko */
+
+    // Share state keys with a sub-component
+    this.App.State.share( this, ['name', 'username'])
+    // Unshare state keys with a sub-component
+    this.App.State.unshare( this, ['username'])
+  ```
+
+  - **UI Store**
+
+  Enable access browser/webview local storage
+  ```JS
+    // Store a new value
+    this.App.UIStore.set('username', 'dupont')
+    // Temporaty store a new value: Get automatically cleared when stored value is read
+    this.App.UIStore.flash('name', 'Bob')
+    // Update stored dataset: Array
+    this.App.UIStore.set('roles', ['USER', 'ADMIN'])
+    this.App.UIStore.update('roles', 'MANAGER', 'push') // Push update to array
+    this.App.UIStore.update('roles', 'MANAGER', 'pop') // Remove stored array's last item
+
+    // Get stored value
+    console.log( this.App.UIStore.get('username') ) // dupont
+    console.log( this.App.UIStore.get('roles') ) // USER, ADMIN
+
+    // Delete a stored value
+    this.App.UIStore.clear('username')
+    this.App.UIStore.clear(['name', 'roles'])
+  ```
+
+  - **Request**
+
+  Enable extension to consume multipple API and send request to external services or API providers.
+
+  ```JS
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: {
+        name: 'dupont'
+      }
+    }
+
+    // Send request
+    try {
+      const courses = await this.Plugin.Request('/courses', options )
+
+      // Do something ...
+    }
+    catch( error ){ /* Handle request error here ...*/ }
+  ```
+
   - **Permissions**:
+
+  Request permission to access a resourse on multipple platform
+  ```JS
+    // Return the list of permissions listed in `.metadata.resource.permissions`
+    await this.App.Permission.getScope()
+
+    // Set/Update a new permissions scope to `.metadata.resource.permissions`
+    await this.App.Permission.setScope('user:*')
+    
+    // Manually ask permission scope and wait for granted list
+    await this.App.Permission.ask('permission', ['tenant:name']) // Return true or false
+
+    // 
+    await this.App.Permission.mandatory(['tenant.apps'])
+  ```
+  
   - **Notifications**:
   - **Database**:
   - **String**:
